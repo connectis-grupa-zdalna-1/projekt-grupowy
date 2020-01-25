@@ -1,6 +1,4 @@
-# projekt-grupowy
-
-#System zarządzania biblioteką
+# System zarządzania biblioteką
 Oprogramowanie dzięki któremu można zarządzać prostą biblioteką.
 
 ## Role
