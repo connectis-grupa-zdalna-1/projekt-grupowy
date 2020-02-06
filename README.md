@@ -1,5 +1,5 @@
 # System zarządzania biblioteką
-Oprogramowanie dzięki któremu można zarządzać prostą biblioteką.
+Oprogramowanie dzięki któremu można zarządzać prostą biblioteką
 
 ## Role
  - Administrator
