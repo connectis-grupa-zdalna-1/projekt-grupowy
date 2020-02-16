@@ -1,7 +1,8 @@
 package pl.connectis.projektgrupowy.repository;
 
-import pl.connectis.projektgrupowy.models.User;
+import org.springframework.stereotype.Repository;
 
-public class UserRepository extends AbstractRepository <User>{
+@Repository
+public class UserRepository {
 
 }
