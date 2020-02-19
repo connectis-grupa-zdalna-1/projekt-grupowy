@@ -11,11 +11,6 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public List<Book> showBooks() {
-        return null;
-    }
-
-    @Override
     public Book borrowBook(Integer id) {
         return null;
     }
