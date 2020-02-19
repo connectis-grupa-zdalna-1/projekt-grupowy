@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ClientService {
 
-    List<Book> showBooks();
-
     Book borrowBook(Integer id);
 
     List<Book> showBorrowedBooks();
