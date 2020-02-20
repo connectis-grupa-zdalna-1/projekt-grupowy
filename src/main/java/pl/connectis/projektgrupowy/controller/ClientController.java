@@ -25,4 +25,6 @@ public class ClientController {
         Book borrowedBook = clientServiceImpl.borrowBook(id);
         return ResponseEntity.ok(borrowedBook);
     }
+
+
 }
