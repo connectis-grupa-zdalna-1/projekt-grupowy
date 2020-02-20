@@ -1,17 +1,42 @@
 package pl.connectis.projektgrupowy.service;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.connectis.projektgrupowy.domain.Book;
-import pl.connectis.projektgrupowy.domain.User;
+import pl.connectis.projektgrupowy.domain.Client;
+import pl.connectis.projektgrupowy.repository.BookRepository;
+import pl.connectis.projektgrupowy.repository.ClientRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
+    BookRepository bookRepository;
+    ClientRepository clientRepository;
+
+    public ClientServiceImpl(BookRepository bookRepository, ClientRepository clientRepository) {
+        this.bookRepository = bookRepository;
+        this.clientRepository = clientRepository;
+    }
 
     @Override
-    public Book borrowBook(Integer id) {
+    @Transactional
+    public Book borrowBook(Long bookId, Long clientId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if (optionalClient.isPresent() && optionalBook.isPresent()) {
+            Client client = optionalClient.get();
+            Set<Book> bookSet = client.getBooks();
+            bookSet.add(optionalBook.get());
+            client.setBooks(bookSet);
+            clientRepository.save(client);
+            return optionalBook.get();
+        }
         return null;
     }
 
@@ -26,12 +51,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public User logoutUser(User uderId) {
+    public Client logoutUser(Client uderId) {
         return null;
     }
 
     @Override
-    public User borroweMaxTwoBooks() {
+    public Client borroweMaxTwoBooks() {
         return null;
     }
 }
