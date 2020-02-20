@@ -27,16 +27,16 @@ public class BookRepositoryTest {
         List<Book> bookList = bookRepository.findAll();
         Assertions.assertEquals(1, bookList.size());
     }
-
-    @Test
-    public void viewBooks2() {
-        List<Book> bookList = bookRepository.findAll();
-        Assertions.assertEquals(1, bookList.size());
-    }
-
-    @Test
-    public void viewBooks3() {
-        List<Book> bookList = bookRepository.findAll();
-        Assertions.assertEquals(1, bookList.size());
-    }
+//
+//    @Test
+//    public void viewBooks2() {
+//        List<Book> bookList = bookRepository.findAll();
+//        Assertions.assertEquals(1, bookList.size());
+//    }
+//
+//    @Test
+//    public void viewBooks3() {
+//        List<Book> bookList = bookRepository.findAll();
+//        Assertions.assertEquals(1, bookList.size());
+//    }
 }

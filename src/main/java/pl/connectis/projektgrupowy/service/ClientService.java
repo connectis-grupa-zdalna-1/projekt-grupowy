@@ -1,19 +1,19 @@
 package pl.connectis.projektgrupowy.service;
 
 import pl.connectis.projektgrupowy.domain.Book;
-import pl.connectis.projektgrupowy.domain.User;
+import pl.connectis.projektgrupowy.domain.Client;
 
 import java.util.List;
 
 public interface ClientService {
 
-    Book borrowBook(Integer id);
+    Book borrowBook(Long bookId, Long clientId);
 
     List<Book> showBorrowedBooks();
 
     Book returnBorrowedBook(Book bookId);
 
-    User logoutUser(User uderId);
+    Client logoutUser(Client uderId);
 
-    User borroweMaxTwoBooks();
+    Client borroweMaxTwoBooks();
 }
