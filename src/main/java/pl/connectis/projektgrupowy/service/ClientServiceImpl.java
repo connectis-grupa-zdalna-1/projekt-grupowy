@@ -1,5 +1,6 @@
 package pl.connectis.projektgrupowy.service;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,15 +44,17 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Set<Book> showBorrowedBooks(Long clientId) {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
+
         if (optionalClient.isPresent()) {
             Client existingClient = optionalClient.get();
+            existingClient.getBooks();
             if (!existingClient.getBooks().isEmpty()) {
-                return existingClient.getBooks();
+                Set<Book> trial = existingClient.getBooks();
+                return trial;
             }
         }
         return null;
     }
-
 
     @Override
     public Book returnBorrowedBook(Book bookId) {

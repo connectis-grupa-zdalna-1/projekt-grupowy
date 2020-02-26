@@ -14,18 +14,16 @@ public class Client {
     private Long id;
     private String firstName;
     private String email;
+
     @OneToMany(mappedBy = "clientBorrowing",cascade = CascadeType.ALL)
     private Set<Book> books;
 
     public Client() {
     }
 
-    public Client(String firstName, String email) {
+    public Client(String firstName, String email, Set<Book> books) {
         this.firstName = firstName;
         this.email = email;
-    }
-
-    public Set<Book> getBooks() {
-        return books;
+        this.books = books;
     }
 }

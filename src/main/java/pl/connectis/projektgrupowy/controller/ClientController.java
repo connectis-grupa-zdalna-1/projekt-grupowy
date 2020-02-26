@@ -32,7 +32,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/books/showBorrowed", produces = "application/json")
-    public ResponseEntity<Set<Book>> showBorrowedBooks(
+    public ResponseEntity<Set<Book>> showBorrowBooks(
             @PathParam("clientId") Long clientId) {
         Set<Book> clientBorrowedBooks = clientServiceImpl.showBorrowedBooks(clientId);
         return clientBorrowedBooks == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(clientBorrowedBooks);

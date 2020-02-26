@@ -3,9 +3,8 @@ package pl.connectis.projektgrupowy.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-
-@Entity
 @Data
+@Entity
 public class Book {
 
     @Id
@@ -13,10 +12,12 @@ public class Book {
     private Long id;
     private String nameOfBook;
     private String author;
-    private String borrowed;
-    @ManyToOne
+    boolean borrowed;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Client clientBorrowing;
 
     public Book() {
     }
+
 }
