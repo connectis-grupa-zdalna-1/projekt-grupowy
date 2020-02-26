@@ -41,9 +41,17 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Book> showBorrowedBooks() {
+    public Set<Book> showBorrowedBooks(Long clientId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        if (optionalClient.isPresent()) {
+            Client existingClient = optionalClient.get();
+            if (!existingClient.getBooks().isEmpty()) {
+                return existingClient.getBooks();
+            }
+        }
         return null;
     }
+
 
     @Override
     public Book returnBorrowedBook(Book bookId) {

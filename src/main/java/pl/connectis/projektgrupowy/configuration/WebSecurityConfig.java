@@ -1,4 +1,4 @@
-package pl.connectis.projektgrupowy.domain;
+package pl.connectis.projektgrupowy.configuration;
 
 
 import org.springframework.context.annotation.Configuration;

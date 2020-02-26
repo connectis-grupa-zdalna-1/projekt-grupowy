@@ -25,4 +25,7 @@ public class Client {
         this.email = email;
     }
 
+    public Set<Book> getBooks() {
+        return books;
+    }
 }
