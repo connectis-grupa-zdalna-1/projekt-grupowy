@@ -1,7 +1,5 @@
 package pl.connectis.projektgrupowy.service;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.connectis.projektgrupowy.domain.Book;
 import pl.connectis.projektgrupowy.domain.Client;
@@ -9,7 +7,6 @@ import pl.connectis.projektgrupowy.repository.BookRepository;
 import pl.connectis.projektgrupowy.repository.ClientRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,7 +38,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Book> showBorrowedBooks() {
+    @Transactional
+    public Set<Book> showBorrowedBooks(Long clientId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+
+        if (optionalClient.isPresent()) {
+            Client existingClient = optionalClient.get();
+            if (!existingClient.getBooks().isEmpty()) {
+                return existingClient.getBooks();
+            }
+        }
         return null;
     }
 
