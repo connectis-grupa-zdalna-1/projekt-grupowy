@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.connectis.projektgrupowy.domain.Book;
 import pl.connectis.projektgrupowy.domain.Client;
+import pl.connectis.projektgrupowy.exceptione.NoBookIDException;
+import pl.connectis.projektgrupowy.exceptione.NoBorrowedBooksException;
+import pl.connectis.projektgrupowy.exceptione.NomoreNooksException;
 import pl.connectis.projektgrupowy.repository.BookRepository;
 import pl.connectis.projektgrupowy.repository.ClientRepository;
 
@@ -26,37 +29,53 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Book borrowBook(Long bookId, Long clientId) {
+    public Book borrowBook(Long bookId, Long clientId) throws NomoreNooksException {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if (optionalClient.isPresent() && optionalBook.isPresent()) {
+        //added borrow validation
+        if (optionalClient.isPresent() && optionalBook.isPresent()&&optionalClient.get().getBooks().size()<2 ){
             Client client = optionalClient.get();
             Set<Book> bookSet = client.getBooks();
+            
             bookSet.add(optionalBook.get());
             client.setBooks(bookSet);
             clientRepository.save(client);
             return optionalBook.get();
         }
-        return null;
+       throw new NomoreNooksException();
     }
 
     @Override
-    public List<Book> showBorrowedBooks() {
-        return null;
+    @Transactional
+    public Set<Book> showBorrowedBooks(Long clientId) throws NoBorrowedBooksException {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        if(optionalClient.isPresent()){
+           
+            Client client=optionalClient.get();
+            return client.getBooks();
+        }
+        
+        else
+    
+        throw new NoBorrowedBooksException();
+        
+       
     }
 
     @Override
-    public Book returnBorrowedBook(Book bookId) {
-        return null;
+    public void returnBorrowedBook(Long clientId,Long bookId) throws NoBookIDException {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+     if(optionalClient.get().getBooks().contains(optionalBook.get())&&!optionalClient.isPresent()) {
+         optionalClient.get().getBooks().remove(optionalBook.get());
+         System.out.println("Zwrócono książkę "+optionalBook.get().getNameOfBook());
+
+     }
+    throw new NoBookIDException();
+     
     }
 
-    @Override
-    public Client logoutUser(Client uderId) {
-        return null;
-    }
+   
 
-    @Override
-    public Client borroweMaxTwoBooks() {
-        return null;
-    }
+   
 }
