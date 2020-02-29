@@ -75,10 +75,7 @@ public class ClientServiceImpl implements ClientService {
      
     }
 
-    @Override
-    public Client logoutUser(Client uderId) {
-        return null;
-    }
+   
 
    
 }
