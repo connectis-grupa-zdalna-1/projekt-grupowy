@@ -29,26 +29,49 @@ public class ClientServiceImpl implements ClientService {
     public Book borrowBook(Long bookId, Long clientId) {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if (optionalClient.isPresent() && optionalBook.isPresent()) {
+        //added borrow validation
+        if (optionalClient.isPresent() && optionalBook.isPresent()&&optionalClient.get().getBooks().size()<2 ){
             Client client = optionalClient.get();
             Set<Book> bookSet = client.getBooks();
+            
             bookSet.add(optionalBook.get());
             client.setBooks(bookSet);
             clientRepository.save(client);
             return optionalBook.get();
         }
+        System.out.println("No books for u pilgrim");
         return null;
     }
 
     @Override
     @Transactional
-    public List<Book> showBorrowedBooks() {
+    public Set<Book> showBorrowedBooks(Long clientId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        if(optionalClient.isPresent()){
+           
+            Client client=optionalClient.get();
+            return client.getBooks();
+        }
+        
+        else
+        System.out.println("No books");
+        
+        
+        
         return null;
     }
 
     @Override
-    public Book returnBorrowedBook(Book bookId) {
-        return null;
+    public void returnBorrowedBook(Long clientId,Long bookId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+     if(optionalClient.get().getBooks().contains(optionalBook.get())&&optionalClient.isPresent()) {
+         optionalClient.get().getBooks().remove(optionalBook);
+         System.out.println("Zwrócono książkę "+optionalBook.get().getNameOfBook());
+
+     }
+     System.out.println("Nie ma książki");
+     
     }
 
     @Override
@@ -56,8 +79,5 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
 
-    @Override
-    public Client borroweMaxTwoBooks() {
-        return null;
-    }
+   
 }
