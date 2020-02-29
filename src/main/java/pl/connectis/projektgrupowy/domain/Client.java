@@ -9,10 +9,7 @@ import java.util.Set;
 @Entity
 public class Client {
     
-    public Long getId() {
-        return id;
-    }
-    
+  
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

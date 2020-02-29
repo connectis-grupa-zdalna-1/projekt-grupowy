@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.connectis.projektgrupowy.domain.Book;
 import pl.connectis.projektgrupowy.domain.Client;
+import pl.connectis.projektgrupowy.exceptione.NoBookIDException;
+import pl.connectis.projektgrupowy.exceptione.NoBorrowedBooksException;
+import pl.connectis.projektgrupowy.exceptione.NomoreNooksException;
 import pl.connectis.projektgrupowy.repository.BookRepository;
 import pl.connectis.projektgrupowy.repository.ClientRepository;
 
@@ -26,7 +29,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Book borrowBook(Long bookId, Long clientId) {
+    public Book borrowBook(Long bookId, Long clientId) throws NomoreNooksException {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         //added borrow validation
@@ -39,13 +42,12 @@ public class ClientServiceImpl implements ClientService {
             clientRepository.save(client);
             return optionalBook.get();
         }
-        System.out.println("No books for u pilgrim");
-        return null;
+       throw new NomoreNooksException();
     }
 
     @Override
     @Transactional
-    public Set<Book> showBorrowedBooks(Long clientId) {
+    public Set<Book> showBorrowedBooks(Long clientId) throws NoBorrowedBooksException {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         if(optionalClient.isPresent()){
            
@@ -54,23 +56,22 @@ public class ClientServiceImpl implements ClientService {
         }
         
         else
-        System.out.println("No books");
+    
+        throw new NoBorrowedBooksException();
         
-        
-        
-        return null;
+       
     }
 
     @Override
-    public void returnBorrowedBook(Long clientId,Long bookId) {
+    public void returnBorrowedBook(Long clientId,Long bookId) throws NoBookIDException {
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         Optional<Book> optionalBook = bookRepository.findById(bookId);
-     if(optionalClient.get().getBooks().contains(optionalBook.get())&&optionalClient.isPresent()) {
-         optionalClient.get().getBooks().remove(optionalBook);
+     if(optionalClient.get().getBooks().contains(optionalBook.get())&&!optionalClient.isPresent()) {
+         optionalClient.get().getBooks().remove(optionalBook.get());
          System.out.println("Zwrócono książkę "+optionalBook.get().getNameOfBook());
 
      }
-     System.out.println("Nie ma książki");
+    throw new NoBookIDException();
      
     }
 

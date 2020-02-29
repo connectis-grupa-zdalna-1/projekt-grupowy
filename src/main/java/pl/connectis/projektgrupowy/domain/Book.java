@@ -7,10 +7,7 @@ import javax.persistence.*;
 @Entity
 @Data
 public class Book {
-    
-    public Long getId() {
-        return id;
-    }
+   
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
