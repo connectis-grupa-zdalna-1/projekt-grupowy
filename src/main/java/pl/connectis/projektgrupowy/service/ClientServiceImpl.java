@@ -41,6 +41,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public List<Book> showBorrowedBooks() {
         return null;
     }
