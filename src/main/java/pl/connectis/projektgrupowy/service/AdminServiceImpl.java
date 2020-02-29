@@ -34,7 +34,6 @@ public class AdminServiceImpl implements AdminService {
         Optional<Client> optionalClient = clientRepository.findById(clientEmail);
         if (optionalClient.isEmpty()) {
             Client client = new Client();
-            client.
             return clientRepository.save(client);
         }
 
