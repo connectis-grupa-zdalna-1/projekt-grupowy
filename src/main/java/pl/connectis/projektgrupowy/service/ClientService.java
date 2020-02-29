@@ -17,7 +17,7 @@ public interface ClientService {
 
   void returnBorrowedBook(Long clientId,Long bookId) throws NoBookIDException;
 
-    Client logoutUser(Client uderId);
+ 
 
 
 }
